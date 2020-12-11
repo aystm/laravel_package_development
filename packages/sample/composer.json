@@ -1,0 +1,21 @@
+{
+    "name": "yoshitomi/sample",
+    "description": "",
+    "type": "package",
+    "require": {
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Yoshitomi\\Sample\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yoshitomi\\Sample\\Providers\\SampleServiceProvider"
+            ]
+        }
+    }
+}

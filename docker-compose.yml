@@ -1,0 +1,42 @@
+version: '2'
+services:
+  mysqldata:
+    image: busybox
+    volumes:
+      - ./docker/mysql/storage:/var/lib/mysql
+  mysql:
+    build: ./docker/mysql
+    volumes_from:
+      - mysqldata
+    ports:
+      - 4306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=app_db
+  php:
+    container_name: work_larapack
+    build: ./docker/php
+    ports:
+      - 8888:80
+    volumes:
+      - .:/var/www/html
+    links:
+      - mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=password
+    links:
+      - mysql
+    ports:
+       - 8889:80
+    volumes:
+       - /sessions
+  smtp:
+    image: mailhog/mailhog:latest
+    ports:
+      - 1025:1025
+      - 8025:8025
